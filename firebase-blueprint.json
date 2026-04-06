@@ -1,0 +1,122 @@
+{
+  "entities": {
+    "siteContent": {
+      "title": "Site Content",
+      "description": "General text and image content for the website",
+      "type": "object",
+      "properties": {
+        "key": { "type": "string", "description": "Unique key for the content piece" },
+        "value": { "type": "string", "description": "The actual text or image URL" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["key", "value"]
+    },
+    "news": {
+      "title": "News Article",
+      "description": "A news article or chronicle entry",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "image": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "category": { "type": "string" },
+        "author": { "type": "string" }
+      },
+      "required": ["title", "content", "date"]
+    },
+    "gallery": {
+      "title": "Gallery Image",
+      "description": "An image in the portfolio gallery",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "src": { "type": "string" },
+        "category": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "src", "category"]
+    },
+    "testimonials": {
+      "title": "Testimonial",
+      "description": "A quote from a community member",
+      "type": "object",
+      "properties": {
+        "quote": { "type": "string" },
+        "author": { "type": "string" },
+        "role": { "type": "string" },
+        "image": { "type": "string" }
+      },
+      "required": ["quote", "author", "role"]
+    },
+    "users": {
+      "title": "User Profile",
+      "description": "User profile and role management",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "editor", "user"] },
+        "displayName": { "type": "string" }
+      },
+      "required": ["email", "role"]
+    },
+    "activities": {
+      "title": "Featured Activity",
+      "description": "A card in the featured activities section",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "date": { "type": "string" },
+        "location": { "type": "string" },
+        "image": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "date", "location", "image", "status"]
+    },
+    "institutionalPrograms": {
+      "title": "Institutional Program",
+      "description": "A card in the institutional programs section",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "goal": { "type": "string" },
+        "duration": { "type": "string" },
+        "image": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "category", "goal", "duration", "image"]
+    }
+  },
+  "firestore": {
+    "/siteContent/{contentId}": {
+      "schema": "siteContent",
+      "description": "Collection of general site content"
+    },
+    "/news/{newsId}": {
+      "schema": "news",
+      "description": "Collection of news articles"
+    },
+    "/gallery/{imageId}": {
+      "schema": "gallery",
+      "description": "Collection of gallery images"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "testimonials",
+      "description": "Collection of testimonials"
+    },
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "Collection of user profiles"
+    },
+    "/activities/{activityId}": {
+      "schema": "activities",
+      "description": "Collection of featured activities"
+    },
+    "/institutionalPrograms/{programId}": {
+      "schema": "institutionalPrograms",
+      "description": "Collection of institutional programs"
+    }
+  }
+}
