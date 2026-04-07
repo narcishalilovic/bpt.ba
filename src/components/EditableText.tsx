@@ -168,9 +168,10 @@ export default function EditableText({ contentKey, defaultText, className, as: T
       {isAdmin && (
         <button
           onClick={() => setIsEditing(true)}
-          className="absolute top-0 -right-6 p-1 bg-gold-accent text-anthracite rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-40"
+          className="absolute -top-2 -right-2 p-1.5 bg-gold-accent text-anthracite rounded-full opacity-40 group-hover:opacity-100 transition-all z-40 shadow-lg hover:scale-110 active:scale-95"
+          title="Uredi tekst"
         >
-          <Edit2 size={12} />
+          <Edit2 size={10} />
         </button>
       )}
     </span>

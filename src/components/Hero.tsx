@@ -97,13 +97,19 @@ export default function Hero() {
                   <div className="text-gold-accent transition-transform duration-300 group-hover:scale-110">
                     {feature.icon}
                   </div>
-                  <h3 className="text-xl font-black tracking-tight uppercase group-hover:text-gold-accent transition-colors text-white">
-                    {feature.title}
-                  </h3>
+                  <EditableText
+                    contentKey={`hero_feature_title_${index}`}
+                    defaultText={feature.title}
+                    as="h3"
+                    className="text-xl font-black tracking-tight uppercase group-hover:text-gold-accent transition-colors text-white"
+                  />
                 </div>
-                <p className="text-sm text-white/50 font-serif leading-relaxed group-hover:text-white/80 transition-colors">
-                  {feature.description}
-                </p>
+                <EditableText
+                  contentKey={`hero_feature_desc_${index}`}
+                  defaultText={feature.description}
+                  as="p"
+                  className="text-sm text-white/50 font-serif leading-relaxed group-hover:text-white/80 transition-colors"
+                />
                 <div className="mt-4 flex items-center text-[10px] font-display font-bold uppercase tracking-widest text-gold-accent opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0">
                   Saznaj više <ArrowRight className="ml-2 w-3 h-3" />
                 </div>

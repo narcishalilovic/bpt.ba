@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Lock } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/src/lib/utils';
 import { useFirebase } from '../context/FirebaseContext';
@@ -18,6 +18,7 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const { user, login } = useFirebase();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -46,15 +47,9 @@ export default function Navbar() {
             referrerPolicy="no-referrer"
           />
           <div className="flex flex-col leading-[0.6] tracking-tight">
-            <EditableText 
-              contentKey="logo_part0" 
-              defaultText="Bosansko" 
-              as="span" 
-              className="font-display font-black text-xl tracking-tighter text-white uppercase" 
-            />
+            <span className="font-display font-black text-xl tracking-tighter text-white uppercase">Bosansko</span>
             <span className="font-display font-black text-xl tracking-tighter uppercase flex items-center text-gold-accent -mt-3 relative z-10">
-              <EditableText contentKey="logo_part1" defaultText="Pozorište" as="span" />
-              <EditableText contentKey="logo_part2" defaultText="Tešanj" as="span" className="ml-1" />
+              Pozorište <span className="ml-1">Tešanj</span>
             </span>
           </div>
         </Link>
@@ -80,9 +75,11 @@ export default function Navbar() {
             ))}
           </div>
           
-          <Link to="/ukljuci-se" className="btn-primary py-2.5 px-8 text-[10px] tracking-[0.15em]">
-            Postani član
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link to="/ukljuci-se" className="btn-primary py-2.5 px-8 text-[10px] tracking-[0.15em]">
+              Postani član
+            </Link>
+          </div>
         </div>
 
         {/* Mobile Toggle */}

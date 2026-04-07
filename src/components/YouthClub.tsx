@@ -110,10 +110,14 @@ export default function YouthClub() {
                   contentKey={`youth_benefit_desc_${benefit.slug}`}
                   defaultText={benefit.description}
                   as="div"
-                  className="text-sm font-serif italic opacity-0 group-hover:opacity-100 transition-opacity duration-500 mb-6 line-clamp-2"
+                  className="text-sm font-serif italic mb-6 line-clamp-2"
                 />
                 <div className="flex items-center gap-2 font-display font-bold text-xs uppercase tracking-widest text-gold-accent group-hover:text-white transition-colors">
-                  {benefit.buttonText} <ArrowUpRight className="w-4 h-4" />
+                  <EditableText
+                    contentKey={`youth_benefit_btn_${benefit.slug}`}
+                    defaultText={benefit.buttonText}
+                    as="span"
+                  /> <ArrowUpRight className="w-4 h-4" />
                 </div>
               </div>
 

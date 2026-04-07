@@ -23,19 +23,25 @@ export default function EditableImage({
   containerClassName,
   alwaysShowButton = false,
   fixed = false,
-  referrerPolicy = 'no-referrer' 
+  referrerPolicy = 'origin' 
 }: EditableImageProps) {
   const { isAdmin, siteContent, updateSiteContent } = useFirebase();
   const [isEditing, setIsEditing] = useState(false);
-  const [src, setSrc] = useState(siteContent[contentKey] || defaultSrc);
+  
+  const rawSrc = siteContent[contentKey];
+  const [src, setSrc] = useState(typeof rawSrc === 'string' && rawSrc ? rawSrc : defaultSrc);
+  
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (siteContent[contentKey]) {
-      setSrc(siteContent[contentKey]);
+    const currentRawSrc = siteContent[contentKey];
+    if (typeof currentRawSrc === 'string' && currentRawSrc) {
+      setSrc(currentRawSrc);
+    } else if (!currentRawSrc) {
+      setSrc(defaultSrc);
     }
-  }, [siteContent, contentKey]);
+  }, [siteContent, contentKey, defaultSrc]);
 
   const handleSave = async () => {
     await updateSiteContent(contentKey, src);
@@ -150,9 +156,10 @@ export default function EditableImage({
       {isAdmin && (
         <button
           onClick={() => setIsEditing(true)}
-          className={`${fixed ? 'fixed top-32 right-10' : 'absolute bottom-4 right-4'} p-2 bg-gold-accent text-anthracite rounded-full transition-opacity z-50 shadow-lg pointer-events-auto ${alwaysShowButton ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+          className={`${fixed ? 'fixed top-32 right-10' : 'absolute bottom-4 right-4'} p-3 bg-gold-accent text-anthracite rounded-full transition-all z-50 shadow-2xl pointer-events-auto hover:scale-110 active:scale-95 ${alwaysShowButton ? 'opacity-100' : 'opacity-60 group-hover:opacity-100'}`}
+          title="Uredi fotografiju"
         >
-          <Edit2 size={16} />
+          <Edit2 size={18} />
         </button>
       )}
       {renderModal()}

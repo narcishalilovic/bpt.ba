@@ -1,6 +1,8 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowLeft, Mic, BookOpen, Users, Coffee, CheckCircle2 } from 'lucide-react';
+import EditableText from '../components/EditableText';
+import EditableImage from '../components/EditableImage';
 
 const detailContent = {
   stvaraj: {
@@ -86,15 +88,24 @@ export default function YouthClubDetail() {
             transition={{ duration: 0.6 }}
           >
             <div className="mb-8">{content.icon}</div>
-            <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tighter uppercase mb-6">
-              {content.title}
-            </h1>
-            <p className="text-2xl font-serif italic text-gold-accent mb-8">
-              {content.subtitle}
-            </p>
-            <p className="text-lg text-white/70 font-serif leading-relaxed mb-12">
-              {content.description}
-            </p>
+            <EditableText
+              contentKey={`youth_detail_title_${id}`}
+              defaultText={content.title}
+              as="h1"
+              className="text-5xl md:text-7xl font-black leading-none tracking-tighter uppercase mb-6"
+            />
+            <EditableText
+              contentKey={`youth_detail_subtitle_${id}`}
+              defaultText={content.subtitle}
+              as="p"
+              className="text-2xl font-serif italic text-gold-accent mb-8"
+            />
+            <EditableText
+              contentKey={`youth_detail_desc_${id}`}
+              defaultText={content.description}
+              as="p"
+              className="text-lg text-white/70 font-serif leading-relaxed mb-12"
+            />
 
             <div className="space-y-6">
               <h3 className="font-display font-bold text-sm uppercase tracking-widest text-gold-accent">Šta dobijaš:</h3>
@@ -108,7 +119,11 @@ export default function YouthClubDetail() {
                     className="flex items-center gap-3 text-white/80 font-serif italic"
                   >
                     <CheckCircle2 className="w-5 h-5 text-gold-accent shrink-0" />
-                    {benefit}
+                    <EditableText
+                      contentKey={`youth_detail_benefit_${id}_${i}`}
+                      defaultText={benefit}
+                      as="span"
+                    />
                   </motion.li>
                 ))}
               </ul>
@@ -125,11 +140,11 @@ export default function YouthClubDetail() {
             transition={{ duration: 0.8 }}
             className="relative aspect-[4/5] lg:aspect-square"
           >
-            <img
-              src={content.image}
+            <EditableImage
+              contentKey={`youth_detail_img_${id}`}
+              defaultSrc={content.image}
               alt={content.title}
               className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-              referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 border-2 border-gold-accent/20 -m-4 -z-10" />
           </motion.div>

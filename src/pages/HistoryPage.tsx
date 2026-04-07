@@ -2,27 +2,32 @@ import { motion } from 'motion/react';
 import { Landmark, Calendar, Award, Users, ArrowLeft, History as HistoryIcon, Target, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import EditableText from '../components/EditableText';
+import EditableImage from '../components/EditableImage';
 
 const timeline = [
   {
+    id: '1898',
     year: '1898.',
     title: 'Prva predstava u BiH',
     description: 'U Tešnju je odigrana prva pozorišna predstava u Bosni i Hercegovini, postavljajući temelje za razvoj teatra u cijeloj zemlji.',
     image: 'https://images.unsplash.com/photo-1513106580091-1d82408b8cd6?q=80&w=800&auto=format&fit=crop',
   },
   {
+    id: '1953',
     year: '1953.',
     title: 'Zvanično osnivanje',
     description: '23.05.1953. godine zvanično je osnovano Bosansko pozorište Tešanj, čime je započela era institucionalnog teatra u gradu.',
     image: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?q=80&w=800&auto=format&fit=crop',
   },
   {
+    id: '1970',
     year: '1970-ih',
     title: 'Zlatno doba',
-    description: 'Period intenzivnog rada, brojnih premijera i gostovanja širom bivše Jugoslavije.',
+    description: 'Period intenzivnih rada, brojnih premijera i gostovanja širom bivše Jugoslavije.',
     image: 'https://images.unsplash.com/photo-1516307365426-bea591f05011?q=80&w=800&auto=format&fit=crop',
   },
   {
+    id: 'today',
     year: 'Danas',
     title: 'Moderna scena',
     description: 'Pozorište nastavlja svoj rad njegujući kulturnu scenu grada, sa posebnim fokusom na mlade talente i multimedijalne projekte.',
@@ -39,15 +44,24 @@ export default function HistoryPage() {
         </Link>
 
         <div className="max-w-4xl mb-24">
-          <span className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block">
-            Historijat pozorišta
-          </span>
-          <h1 className="text-5xl md:text-8xl font-black leading-none tracking-tighter uppercase mb-8">
-            LEGAT KOJI <span className="text-gold-accent">ŽIVI</span> KROZ GENERACIJE
-          </h1>
-          <p className="text-2xl md:text-3xl font-serif italic text-anthracite/70 leading-relaxed">
-            Od prve odigrane predstave u Bosni i Hercegovini do danas, Tešanj ostaje kolijevka umjetničkog izražaja i čuvar teatarske tradicije.
-          </p>
+          <EditableText
+            contentKey="history_page_subtitle"
+            defaultText="Historijat pozorišta"
+            as="span"
+            className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block"
+          />
+          <EditableText
+            contentKey="history_page_title"
+            defaultText="LEGAT KOJI ŽIVI KROZ GENERACIJE"
+            as="h1"
+            className="text-5xl md:text-8xl font-black leading-none tracking-tighter uppercase mb-8"
+          />
+          <EditableText
+            contentKey="history_page_description"
+            defaultText="Od prve odigrane predstave u Bosni i Hercegovini do danas, Tešanj ostaje kolijevka umjetničkog izražaja i čuvar teatarske tradicije."
+            as="p"
+            className="text-2xl md:text-3xl font-serif italic text-anthracite/70 leading-relaxed"
+          />
         </div>
 
         {/* Mission & Vision Section */}
@@ -108,7 +122,7 @@ export default function HistoryPage() {
 
           {timeline.map((item, index) => (
             <motion.div
-              key={item.year}
+              key={item.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -120,25 +134,34 @@ export default function HistoryPage() {
 
               <div className="w-full lg:w-1/2">
                 <div className="aspect-video overflow-hidden border-8 border-white shadow-xl">
-                  <img
-                    src={item.image}
+                  <EditableImage
+                    contentKey={`history_timeline_img_${item.id}`}
+                    defaultSrc={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-                    referrerPolicy="no-referrer"
                   />
                 </div>
               </div>
 
               <div className="w-full lg:w-1/2 space-y-6">
-                <span className="text-6xl md:text-8xl font-black text-gold-accent/20 leading-none block">
-                  {item.year}
-                </span>
-                <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tight">
-                  {item.title}
-                </h3>
-                <p className="text-xl font-serif italic text-anthracite/70 leading-relaxed">
-                  {item.description}
-                </p>
+                <EditableText
+                  contentKey={`history_timeline_year_${item.id}`}
+                  defaultText={item.year}
+                  as="span"
+                  className="text-6xl md:text-8xl font-black text-gold-accent/20 leading-none block"
+                />
+                <EditableText
+                  contentKey={`history_timeline_title_${item.id}`}
+                  defaultText={item.title}
+                  as="h3"
+                  className="text-3xl md:text-4xl font-black uppercase tracking-tight"
+                />
+                <EditableText
+                  contentKey={`history_timeline_desc_${item.id}`}
+                  defaultText={item.description}
+                  as="p"
+                  className="text-xl font-serif italic text-anthracite/70 leading-relaxed"
+                />
               </div>
             </motion.div>
           ))}
@@ -147,12 +170,18 @@ export default function HistoryPage() {
         {/* Call to action */}
         <div className="mt-32 p-12 md:p-24 bg-anthracite text-white text-center relative overflow-hidden">
           <div className="relative z-10">
-            <h2 className="text-4xl md:text-6xl font-black uppercase mb-8 tracking-tighter">
-              POSTANI DIO NAŠE <span className="text-gold-accent">BUDUĆNOSTI</span>
-            </h2>
-            <p className="text-xl font-serif italic text-white/60 mb-12 max-w-2xl mx-auto">
-              Historija se i dalje piše. Pridruži nam se i ostavi svoj trag na daskama koje život znače.
-            </p>
+            <EditableText
+              contentKey="history_cta_title"
+              defaultText="POSTANI DIO NAŠE BUDUĆNOSTI"
+              as="h2"
+              className="text-4xl md:text-6xl font-black uppercase mb-8 tracking-tighter"
+            />
+            <EditableText
+              contentKey="history_cta_desc"
+              defaultText="Historija se i dalje piše. Pridruži nam se i ostavi svoj trag na daskama koje život znače."
+              as="p"
+              className="text-xl font-serif italic text-white/60 mb-12 max-w-2xl mx-auto"
+            />
             <Link to="/ukljuci-se" className="btn-primary">
               Uključi se u rad
             </Link>

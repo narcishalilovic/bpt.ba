@@ -21,15 +21,9 @@ export default function Footer() {
                 referrerPolicy="no-referrer"
               />
               <div className="flex flex-col leading-[0.6] tracking-tight">
-                <EditableText 
-                  contentKey="logo_part0" 
-                  defaultText="Bosansko" 
-                  as="span" 
-                  className="font-display font-black text-2xl tracking-tighter text-white uppercase" 
-                />
+                <span className="font-display font-black text-2xl tracking-tighter text-white uppercase">Bosansko</span>
                 <span className="font-display font-black text-2xl tracking-tighter uppercase flex items-center text-gold-accent -mt-4 relative z-10">
-                  <EditableText contentKey="logo_part1" defaultText="Pozorište" as="span" />
-                  <EditableText contentKey="logo_part2" defaultText="Tešanj" as="span" className="ml-1.5" />
+                  Pozorište <span className="ml-1.5">Tešanj</span>
                 </span>
               </div>
             </Link>
