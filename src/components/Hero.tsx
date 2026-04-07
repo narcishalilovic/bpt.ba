@@ -31,8 +31,8 @@ export default function Hero() {
       {/* Background Media with Overlay */}
       <div className="absolute inset-0 z-0">
         <EditableImage
-          contentKey="hero_bg"
-          defaultSrc="https://github.com/narcishalilovic/bpt.ba/blob/main/hero-bg.webp?raw=true"
+          contentKey="hero_bg_new"
+          defaultSrc="https://github.com/narcishalilovic/bpt.ba/blob/main/assets/Hero-bpt.webp?raw=true"
           alt="Pozorište Tešanj"
           className="absolute inset-0 w-full h-full object-cover opacity-60"
           alwaysShowButton={true}

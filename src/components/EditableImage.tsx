@@ -23,7 +23,7 @@ export default function EditableImage({
   containerClassName,
   alwaysShowButton = false,
   fixed = false,
-  referrerPolicy = 'origin' 
+  referrerPolicy = 'no-referrer' 
 }: EditableImageProps) {
   const { isAdmin, siteContent, updateSiteContent } = useFirebase();
   const [isEditing, setIsEditing] = useState(false);
