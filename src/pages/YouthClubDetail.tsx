@@ -89,16 +89,16 @@ export default function YouthClubDetail() {
           >
             <div className="mb-8">{content.icon}</div>
             <EditableText
-              contentKey={`youth_detail_title_${id}`}
-              defaultText={content.title}
-              as="h1"
-              className="text-5xl md:text-7xl font-black leading-none tracking-tighter uppercase mb-6"
-            />
-            <EditableText
               contentKey={`youth_detail_subtitle_${id}`}
               defaultText={content.subtitle}
               as="p"
-              className="text-2xl font-serif italic text-gold-accent mb-8"
+              className="text-2xl font-serif italic text-gold-accent mb-4"
+            />
+            <EditableText
+              contentKey={`youth_detail_title_${id}`}
+              defaultText={content.title}
+              as="h1"
+              className="text-5xl md:text-7xl font-black leading-none tracking-tighter uppercase mb-8"
             />
             <EditableText
               contentKey={`youth_detail_desc_${id}`}
