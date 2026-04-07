@@ -4,6 +4,7 @@ import { Calendar, Search, ArrowRight, Link as LinkIcon, Check } from 'lucide-re
 import { motion } from 'motion/react';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
+import { formatDate } from '../lib/dateUtils';
 
 interface NewsItem {
   id: string;
@@ -50,7 +51,7 @@ export default function NewsList() {
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 border-b-2 border-anthracite pb-12">
           <div className="max-w-2xl">
             <span className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block">
-              Hronika utjecaja
+              Novosti
             </span>
             <h1 className="text-5xl md:text-8xl font-black leading-none tracking-tighter uppercase">
               MAGAZIN <span className="text-gold-accent">POZORIŠTA</span> TEŠANJ
@@ -93,7 +94,7 @@ export default function NewsList() {
                     {item.category}
                   </span>
                   <div className="flex items-center gap-1 text-[10px] font-display font-bold text-anthracite/40 uppercase tracking-widest">
-                    <Calendar className="w-3 h-3" /> {item.date}
+                    <Calendar className="w-3 h-3" /> {formatDate(item.date)}
                   </div>
                 </div>
 

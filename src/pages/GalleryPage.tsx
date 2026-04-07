@@ -55,7 +55,7 @@ export default function GalleryPage() {
           <EditableText
             contentKey="gallery_description"
             defaultText="Zavirite u svijet iza zavjese. Od historijskih trenutaka do najnovijih premijera našeg Omladinskog kluba."
-            as="p"
+            as="div"
             className="text-xl font-serif italic text-white/60 max-w-2xl"
           />
         </div>

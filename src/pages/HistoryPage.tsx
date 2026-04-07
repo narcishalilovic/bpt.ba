@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
-import { Landmark, Calendar, Award, Users, ArrowLeft, History as HistoryIcon } from 'lucide-react';
+import { Landmark, Calendar, Award, Users, ArrowLeft, History as HistoryIcon, Target, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import EditableText from '../components/EditableText';
 
 const timeline = [
   {
@@ -12,7 +13,7 @@ const timeline = [
   {
     year: '1953.',
     title: 'Zvanično osnivanje',
-    description: '23. maja 1953. godine zvanično je osnovano Bosansko pozorište Tešanj, čime je započela era institucionalnog teatra u gradu.',
+    description: '23.05.1953. godine zvanično je osnovano Bosansko pozorište Tešanj, čime je započela era institucionalnog teatra u gradu.',
     image: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?q=80&w=800&auto=format&fit=crop',
   },
   {
@@ -47,6 +48,57 @@ export default function HistoryPage() {
           <p className="text-2xl md:text-3xl font-serif italic text-anthracite/70 leading-relaxed">
             Od prve odigrane predstave u Bosni i Hercegovini do danas, Tešanj ostaje kolijevka umjetničkog izražaja i čuvar teatarske tradicije.
           </p>
+        </div>
+
+        {/* Mission & Vision Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-32">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="p-12 bg-anthracite text-white relative group overflow-hidden"
+          >
+            <Target className="w-12 h-12 text-gold-accent mb-8 relative z-10" />
+            <EditableText
+              contentKey="mission_title"
+              defaultText="MISIJA"
+              as="h2"
+              className="text-4xl font-black uppercase tracking-tighter mb-6 relative z-10"
+            />
+            <EditableText
+              contentKey="mission_text"
+              defaultText="Misija Bosanskog pozorišta Tešanj je da kroz umjetnost, edukaciju i zajedničko stvaranje razvija kulturu, potiče kreativnost djece i mladih te gradi prostor susreta, izražavanja i društvene odgovornosti u lokalnoj zajednici."
+              as="p"
+              className="text-xl font-serif italic text-white/70 leading-relaxed relative z-10"
+            />
+            <div className="absolute -bottom-10 -right-10 text-8xl font-black text-white/[0.03] select-none pointer-events-none uppercase">
+              Misija
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="p-12 bg-gold-accent text-anthracite relative group overflow-hidden"
+          >
+            <Eye className="w-12 h-12 text-anthracite mb-8 relative z-10" />
+            <EditableText
+              contentKey="vision_title"
+              defaultText="VIZIJA"
+              as="h2"
+              className="text-4xl font-black uppercase tracking-tighter mb-6 relative z-10"
+            />
+            <EditableText
+              contentKey="vision_text"
+              defaultText="Vizija Bosanskog pozorišta Tešanj je da postane prepoznatljiv i snažan centar kulturnog i kreativnog razvoja djece i mladih, mjesto koje inspiriše, povezuje zajednicu i aktivno doprinosi razvoju savremenog pozorišta i društva."
+              as="p"
+              className="text-xl font-serif italic text-anthracite/70 leading-relaxed relative z-10"
+            />
+            <div className="absolute -bottom-10 -right-10 text-8xl font-black text-anthracite/[0.05] select-none pointer-events-none uppercase">
+              Vizija
+            </div>
+          </motion.div>
         </div>
 
         {/* Timeline */}

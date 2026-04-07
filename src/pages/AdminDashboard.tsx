@@ -4,17 +4,28 @@ import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, query, order
 import { db, handleFirestoreError, OperationType, uploadFile } from '../firebase';
 import { Plus, Trash2, Edit, Save, X, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
 
-type TabType = 'news' | 'gallery' | 'testimonials' | 'activities' | 'institutionalPrograms';
+type TabType = 'news' | 'gallery' | 'testimonials' | 'activities' | 'institutionalPrograms' | 'documents' | 'documentCategories';
 
 export default function AdminDashboard() {
   const { isAdmin, loading } = useFirebase();
   const [activeTab, setActiveTab] = useState<TabType>('news');
   const [items, setItems] = useState<any[]>([]);
+  const [docCategories, setDocCategories] = useState<any[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<any>({});
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    const q = query(collection(db, 'documentCategories'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setDocCategories(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+    return () => unsubscribe();
+  }, [isAdmin]);
 
   useEffect(() => {
     if (!isAdmin) return;
@@ -129,7 +140,7 @@ export default function AdminDashboard() {
         </h1>
 
         <div className="flex flex-wrap gap-4 mb-12 border-b border-white/10 pb-4">
-          {(['news', 'gallery', 'testimonials', 'activities', 'institutionalPrograms'] as const).map((tab) => (
+          {(['news', 'gallery', 'testimonials', 'activities', 'institutionalPrograms', 'documents', 'documentCategories'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => { setActiveTab(tab); setIsAdding(false); setEditingId(null); }}
@@ -140,7 +151,9 @@ export default function AdminDashboard() {
               {tab === 'news' ? 'Vijesti' : 
                tab === 'gallery' ? 'Galerija' : 
                tab === 'testimonials' ? 'Recenzije' : 
-               tab === 'activities' ? 'Aktivnosti' : 'Programi'}
+               tab === 'activities' ? 'Aktivnosti' : 
+               tab === 'institutionalPrograms' ? 'Programi' :
+               tab === 'documents' ? 'Dokumenti' : 'Kategorije Dok.'}
             </button>
           ))}
         </div>
@@ -151,7 +164,9 @@ export default function AdminDashboard() {
               activeTab === 'news' ? 'Vijesti' : 
               activeTab === 'gallery' ? 'Galerija' : 
               activeTab === 'testimonials' ? 'Recenzije' : 
-              activeTab === 'activities' ? 'Aktivnosti' : 'Programi'
+              activeTab === 'activities' ? 'Aktivnosti' : 
+              activeTab === 'institutionalPrograms' ? 'Programi' :
+              activeTab === 'documents' ? 'Dokumenti' : 'Kategorije Dokumenata'
             }</span>
           </h2>
           <button
@@ -199,7 +214,7 @@ export default function AdminDashboard() {
               {activeTab === 'activities' && (
                 <>
                   <input type="text" placeholder="Naslov" className="admin-input" value={formData.title || ''} onChange={e => setFormData({...formData, title: e.target.value})} />
-                  <input type="text" placeholder="Datum (npr. 15. April 2026)" className="admin-input" value={formData.date || ''} onChange={e => setFormData({...formData, date: e.target.value})} />
+                  <input type="text" placeholder="Datum (npr. 15.04.2026)" className="admin-input" value={formData.date || ''} onChange={e => setFormData({...formData, date: e.target.value})} />
                   <input type="text" placeholder="Lokacija" className="admin-input" value={formData.location || ''} onChange={e => setFormData({...formData, location: e.target.value})} />
                   <input type="text" placeholder="Status (npr. Aktuelno)" className="admin-input" value={formData.status || ''} onChange={e => setFormData({...formData, status: e.target.value})} />
                   <div className="md:col-span-2">
@@ -214,6 +229,69 @@ export default function AdminDashboard() {
                   <input type="text" placeholder="Trajanje" className="admin-input" value={formData.duration || ''} onChange={e => setFormData({...formData, duration: e.target.value})} />
                   {renderImageInput('image')}
                   <textarea placeholder="Cilj/Opis" className="admin-input md:col-span-2 h-32" value={formData.goal || ''} onChange={e => setFormData({...formData, goal: e.target.value})} />
+                </>
+              )}
+              {activeTab === 'documentCategories' && (
+                <>
+                  <input type="text" placeholder="Naziv kategorije (npr. Pravilnici)" className="admin-input md:col-span-2" value={formData.name || ''} onChange={e => setFormData({...formData, name: e.target.value})} />
+                </>
+              )}
+              {activeTab === 'documents' && (
+                <>
+                  <input type="text" placeholder="Naslov dokumenta" className="admin-input" value={formData.title || ''} onChange={e => setFormData({...formData, title: e.target.value})} />
+                  <select 
+                    className="admin-input" 
+                    value={formData.categoryId || ''} 
+                    onChange={e => setFormData({...formData, categoryId: e.target.value})}
+                  >
+                    <option value="">Odaberi kategoriju</option>
+                    {docCategories.map(cat => (
+                      <option key={cat.id} value={cat.id}>{cat.name}</option>
+                    ))}
+                  </select>
+                  <div className="md:col-span-2 flex flex-col gap-4">
+                    <div className="flex items-center gap-2">
+                      <ImageIcon size={18} className="text-gold-accent" />
+                      <input 
+                        type="text" 
+                        placeholder="URL dokumenta (PDF)" 
+                        className="admin-input" 
+                        value={formData.url || ''} 
+                        onChange={e => setFormData({...formData, url: e.target.value})} 
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          setIsUploading(true);
+                          try {
+                            const fileName = `${Date.now()}_${file.name}`;
+                            const downloadURL = await uploadFile(file, `documents/${fileName}`);
+                            setFormData({ ...formData, url: downloadURL });
+                          } catch (error) {
+                            console.error('Error uploading file:', error);
+                            alert('Greška pri učitavanju dokumenta.');
+                          } finally {
+                            setIsUploading(false);
+                          }
+                        }}
+                        className="hidden"
+                        accept=".pdf"
+                      />
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={isUploading}
+                        className="w-full py-3 bg-white/5 border border-white/10 text-white rounded hover:bg-white/10 flex items-center justify-center gap-2 text-xs uppercase tracking-widest transition-colors"
+                      >
+                        {isUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+                        {isUploading ? 'Učitavanje...' : 'Učitaj PDF sa računara'}
+                      </button>
+                    </div>
+                  </div>
                 </>
               )}
             </div>
@@ -245,8 +323,10 @@ export default function AdminDashboard() {
                   <img src={item.image || item.src || null} alt="" className="w-16 h-16 object-cover rounded grayscale group-hover:grayscale-0 transition-all" />
                 )}
                 <div>
-                  <h4 className="font-bold uppercase tracking-widest">{item.title || item.author}</h4>
-                  <p className="text-xs text-white/40 uppercase tracking-widest">{item.category || item.role || item.status}</p>
+                  <h4 className="font-bold uppercase tracking-widest">{item.title || item.author || item.name}</h4>
+                  <p className="text-xs text-white/40 uppercase tracking-widest">
+                    {item.category || item.role || item.status || (activeTab === 'documents' ? docCategories.find(c => c.id === item.categoryId)?.name : 'Kategorija')}
+                  </p>
                 </div>
               </div>
               <div className="flex gap-2">

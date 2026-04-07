@@ -52,7 +52,7 @@ export default function InstitutionalPrograms() {
             <EditableText
               contentKey="inst_programs_description"
               defaultText="Pozorište nije samo zgrada, već učionica bez zidova. Naši programi su pažljivo kreirani da dopune školski plan i program kroz umjetnost."
-              as="p"
+              as="div"
               className="text-xl font-serif italic text-white/60"
             />
           </div>

@@ -64,7 +64,7 @@ export default function YouthClub() {
             <EditableText
               contentKey="youth_club_description"
               defaultText="Pridruži se zajednici mladih kreativaca koji mijenjaju kulturnu sliku Tešnja."
-              as="p"
+              as="div"
               className="text-xl font-serif italic text-anthracite/60"
             />
           </div>
@@ -109,7 +109,7 @@ export default function YouthClub() {
                 <EditableText
                   contentKey={`youth_benefit_desc_${benefit.slug}`}
                   defaultText={benefit.description}
-                  as="p"
+                  as="div"
                   className="text-sm font-serif italic opacity-0 group-hover:opacity-100 transition-opacity duration-500 mb-6 line-clamp-2"
                 />
                 <div className="flex items-center gap-2 font-display font-bold text-xs uppercase tracking-widest text-gold-accent group-hover:text-white transition-colors">

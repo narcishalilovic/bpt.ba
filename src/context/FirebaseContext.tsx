@@ -9,8 +9,8 @@ interface FirebaseContextType {
   loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
-  siteContent: Record<string, string>;
-  updateSiteContent: (key: string, value: string) => Promise<void>;
+  siteContent: Record<string, any>;
+  updateSiteContent: (key: string, value: any) => Promise<void>;
 }
 
 const FirebaseContext = createContext<FirebaseContextType | undefined>(undefined);
@@ -19,7 +19,7 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [siteContent, setSiteContent] = useState<Record<string, string>>({});
+  const [siteContent, setSiteContent] = useState<Record<string, any>>({});
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -56,7 +56,7 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const q = query(collection(db, 'siteContent'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const content: Record<string, string> = {};
+      const content: Record<string, any> = {};
       snapshot.forEach((doc) => {
         content[doc.id] = doc.data().value;
       });
@@ -88,7 +88,7 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const updateSiteContent = async (key: string, value: string) => {
+  const updateSiteContent = async (key: string, value: any) => {
     if (!isAdmin) return;
     try {
       await setDoc(doc(db, 'siteContent', key), {

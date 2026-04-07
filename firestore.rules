@@ -35,6 +35,25 @@ service cloud.firestore {
     //   - role: string (required)
     //   - image: string (optional)
     //
+    // Collection: institutionalPrograms
+    // Fields:
+    //   - title: string (required)
+    //   - category: string (required)
+    //   - duration: string (optional)
+    //   - image: string (optional)
+    //   - goal: string (optional)
+    //
+    // Collection: documentCategories
+    // Fields:
+    //   - name: string (required)
+    //
+    // Collection: documents
+    // Fields:
+    //   - title: string (required)
+    //   - url: string (required)
+    //   - categoryId: string (required) - reference to documentCategories
+    //   - createdAt: string (required)
+    //
     // Collection: users
     // Fields:
     //   - email: string (required)
@@ -105,6 +124,16 @@ service cloud.firestore {
     }
 
     match /institutionalPrograms/{programId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /documents/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /documentCategories/{catId} {
       allow read: if true;
       allow write: if isAdmin();
     }

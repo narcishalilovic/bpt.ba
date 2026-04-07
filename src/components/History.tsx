@@ -31,12 +31,12 @@ export default function History() {
               <EditableText
                 contentKey="history_p1"
                 defaultText="Pozorište u Tešnju nije samo kulturna ustanova, ono je čuvar historije. Jeste li znali da je upravo u našem gradu odigrana prva pozorišna predstava u Bosni i Hercegovini?"
-                as="p"
+                as="div"
               />
               <EditableText
                 contentKey="history_p2"
                 defaultText="Od zvaničnog osnivanja 23. maja 1953. godine, Bosansko pozorište Tešanj postalo je epicentar umjetničkog izražaja, preživjevši decenije i transformišući se u modernu scenu koja danas spaja generacije."
-                as="p"
+                as="div"
               />
             </div>
             
@@ -92,7 +92,7 @@ export default function History() {
               <EditableText
                 contentKey="history_fun_fact"
                 defaultText='"Prva predstava u Tešnju odigrana je davne 1898. godine, postavljajući temelje za sve što smo danas."'
-                as="p"
+                as="div"
                 className="font-serif italic text-sm"
               />
             </div>
@@ -101,8 +101,8 @@ export default function History() {
       </div>
 
       {/* Background Text */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[25rem] font-black text-anthracite/[0.02] select-none pointer-events-none leading-none uppercase whitespace-nowrap">
-        Tradicija
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15rem] font-black text-anthracite/[0.02] select-none pointer-events-none leading-none uppercase whitespace-nowrap">
+        <span className="text-[#F2F2F2]/[0.03]">R</span>evolucija Pozorišta
       </div>
     </section>
   );

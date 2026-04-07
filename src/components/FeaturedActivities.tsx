@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { collection, onSnapshot, query, limit, orderBy } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import EditableText from './EditableText';
+import { formatDate } from '../lib/dateUtils';
 
 export default function FeaturedActivities() {
   const [activities, setActivities] = useState<any[]>([]);
@@ -60,17 +61,25 @@ export default function FeaturedActivities() {
                 transition={{ delay: index * 0.2, duration: 0.6 }}
                 className="group cursor-pointer"
               >
-                <div className="relative aspect-[3/4] overflow-hidden mb-6">
+                <div className="relative aspect-[3/4] overflow-hidden mb-6 bg-anthracite/5">
+                  {/* Blurred background */}
+                  <img
+                    src={activity.image || null}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-50 scale-110 transition-transform duration-700 group-hover:scale-125"
+                    referrerPolicy="no-referrer"
+                  />
+                  {/* Main image */}
                   <img
                     src={activity.image || null}
                     alt={activity.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="relative z-10 w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 drop-shadow-2xl"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute top-4 left-4 bg-gold-accent text-anthracite px-4 py-1 font-display font-bold text-xs uppercase tracking-widest">
+                  <div className="absolute top-4 left-4 bg-gold-accent text-anthracite px-4 py-1 font-display font-bold text-xs uppercase tracking-widest z-20">
                     {activity.status}
                   </div>
-                  <div className="absolute inset-0 bg-anthracite/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-anthracite/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-30">
                     <button className="btn-primary flex items-center gap-2">
                       <Ticket className="w-4 h-4" /> Rezerviši kartu
                     </button>
@@ -81,7 +90,7 @@ export default function FeaturedActivities() {
                 </h3>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-anthracite/60 font-serif italic">
-                    <Calendar className="w-4 h-4" /> {activity.date}
+                    <Calendar className="w-4 h-4" /> {formatDate(activity.date)}
                   </div>
                   <div className="flex items-center gap-2 text-anthracite/60 font-serif italic">
                     <MapPin className="w-4 h-4" /> {activity.location}

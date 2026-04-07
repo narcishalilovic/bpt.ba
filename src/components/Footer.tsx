@@ -1,6 +1,7 @@
 import { Facebook, Instagram, Youtube, Music2, Mail, Phone, MapPin, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useFirebase } from '../context/FirebaseContext';
+import EditableText from './EditableText';
 
 export default function Footer() {
   const { user, isAdmin, login, logout } = useFirebase();
@@ -20,17 +21,24 @@ export default function Footer() {
                 referrerPolicy="no-referrer"
               />
               <div className="flex flex-col leading-[0.6] tracking-tight">
-                <span className="font-display font-black text-2xl tracking-tighter text-white uppercase">
-                  Bosansko
-                </span>
+                <EditableText 
+                  contentKey="logo_part0" 
+                  defaultText="Bosansko" 
+                  as="span" 
+                  className="font-display font-black text-2xl tracking-tighter text-white uppercase" 
+                />
                 <span className="font-display font-black text-2xl tracking-tighter uppercase flex items-center text-gold-accent -mt-4 relative z-10">
-                  Pozorište<span className="ml-1.5">Tešanj</span>
+                  <EditableText contentKey="logo_part1" defaultText="Pozorište" as="span" />
+                  <EditableText contentKey="logo_part2" defaultText="Tešanj" as="span" className="ml-1.5" />
                 </span>
               </div>
             </Link>
-            <p className="text-lg text-white/60 max-w-md italic font-serif mb-8">
-              "Više od glume. Mjesto gdje stvaramo budućnost kulture."
-            </p>
+            <EditableText
+              contentKey="footer_slogan"
+              defaultText='"Više od glume. Mjesto gdje stvaramo budućnost kulture."'
+              as="div"
+              className="text-lg text-white/60 max-w-md italic font-serif mb-8"
+            />
             <div className="flex gap-4">
               <a href="https://www.facebook.com/pozoriste.tesanj/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold-accent hover:border-gold-accent transition-all" title="Facebook">
                 <Facebook className="w-5 h-5" />
@@ -48,13 +56,16 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display font-bold text-sm uppercase tracking-widest mb-8 text-gold-accent">
-              Navigacija
-            </h4>
+            <EditableText
+              contentKey="footer_nav_heading"
+              defaultText="Navigacija"
+              as="h4"
+              className="font-display font-bold text-sm uppercase tracking-widest mb-8 text-gold-accent"
+            />
             <ul className="space-y-4 font-display font-bold text-xs uppercase tracking-widest">
               <li><Link to="/" className="hover-gold transition-colors">Početna</Link></li>
               <li><Link to="/historijat" className="hover-gold transition-colors">Pozorište</Link></li>
-              <li><Link to="/hronika-utjecaja" className="hover-gold transition-colors">Hronika</Link></li>
+              <li><Link to="/hronika-utjecaja" className="hover-gold transition-colors">Novosti</Link></li>
               <li><Link to="/aktivnosti" className="hover-gold transition-colors">Aktivnosti</Link></li>
               <li><Link to="/omladinski-klub" className="hover-gold transition-colors">Mladi</Link></li>
               <li><Link to="/institucionalna-saradnja" className="hover-gold transition-colors">Saradnja</Link></li>
@@ -92,31 +103,50 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display font-bold text-sm uppercase tracking-widest mb-8 text-gold-accent">
-              Kontakt
-            </h4>
+            <EditableText
+              contentKey="footer_contact_heading"
+              defaultText="Kontakt"
+              as="h4"
+              className="font-display font-bold text-sm uppercase tracking-widest mb-8 text-gold-accent"
+            />
             <ul className="space-y-6 font-serif italic text-white/60">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-gold-accent shrink-0" />
-                <span>Trg Alije Izetbegovića bb, <br /> 74260 Tešanj, BiH</span>
+                <EditableText
+                  contentKey="footer_address"
+                  defaultText="Trg Alije Izetbegovića bb, 74260 Tešanj, BiH"
+                  as="span"
+                />
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-gold-accent shrink-0" />
-                <span>+387 32 650 000</span>
+                <EditableText
+                  contentKey="footer_phone"
+                  defaultText="+387 32 650 000"
+                  as="span"
+                />
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-gold-accent shrink-0" />
-                <span>info@pozoristetesanj.ba</span>
+                <EditableText
+                  contentKey="footer_email"
+                  defaultText="info@pozoristetesanj.ba"
+                  as="span"
+                />
               </li>
             </ul>
           </div>
         </div>
 
         <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-display font-bold uppercase tracking-widest text-white/40">
-          <p>© {new Date().getFullYear()} Bosansko Pozorište Tešanj. Sva prava zadržana.</p>
+          <p>© {new Date().getFullYear()} <EditableText contentKey="footer_copyright_name" defaultText="Bosansko Pozorište Tešanj" as="span" />. <EditableText contentKey="footer_copyright_rights" defaultText="Sva prava zadržana." as="span" /></p>
           <div className="flex gap-8">
-            <a href="#" className="hover:text-white transition-colors">Privatnost</a>
-            <a href="#" className="hover:text-white transition-colors">Uslovi korištenja</a>
+            <a href="#" className="hover:text-white transition-colors">
+              <EditableText contentKey="footer_privacy" defaultText="Privatnost" as="span" />
+            </a>
+            <a href="#" className="hover:text-white transition-colors">
+              <EditableText contentKey="footer_terms" defaultText="Uslovi korištenja" as="span" />
+            </a>
           </div>
         </div>
       </div>

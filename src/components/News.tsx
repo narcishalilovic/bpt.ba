@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { collection, onSnapshot, query, orderBy, limit } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import EditableText from './EditableText';
+import { formatDate } from '../lib/dateUtils';
 
 interface NewsItem {
   id: string;
@@ -46,7 +47,7 @@ export default function News() {
           <div className="max-w-2xl">
             <EditableText
               contentKey="news_subtitle"
-              defaultText="Hronika utjecaja"
+              defaultText="Novosti"
               as="span"
               className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block"
             />
@@ -87,7 +88,7 @@ export default function News() {
                     {item.category}
                   </span>
                   <div className="flex items-center gap-1 text-[10px] font-display font-bold text-anthracite/40 uppercase tracking-widest">
-                    <Calendar className="w-3 h-3" /> {item.date}
+                    <Calendar className="w-3 h-3" /> {formatDate(item.date)}
                   </div>
                 </div>
 

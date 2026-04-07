@@ -20,7 +20,9 @@ import NewsList from './pages/NewsList';
 import NewsDetail from './pages/NewsDetail';
 import HistoryPage from './pages/HistoryPage';
 import GalleryPage from './pages/GalleryPage';
+import DocumentsPage from './pages/DocumentsPage';
 import AdminDashboard from './pages/AdminDashboard';
+import JoinUsPage from './pages/JoinUsPage';
 import EditableText from './components/EditableText';
 import EditableImage from './components/EditableImage';
 
@@ -103,7 +105,7 @@ function HomePage() {
               <EditableText
                 contentKey="impact_description"
                 defaultText="Svaka donacija, svako članstvo i svaka kupljena karta direktno podržavaju razvoj mladih talenata u Tešnju."
-                as="p"
+                as="div"
                 className="text-xl font-serif italic mb-12 opacity-90"
               />
               <Link to="/podrzi-nas" className="px-8 py-3 bg-off-white text-anthracite font-display font-bold uppercase tracking-wider transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 inline-block">
@@ -167,9 +169,10 @@ export default function App() {
             <Route path="/historijat" element={<HistoryPage />} />
             <Route path="/institucionalna-saradnja" element={<PlaceholderPage title="Institucionalna saradnja" />} />
             <Route path="/aktivnosti" element={<PlaceholderPage title="Aktivnosti" />} />
-            <Route path="/ukljuci-se" element={<PlaceholderPage title="Uključi se" />} />
+            <Route path="/ukljuci-se" element={<JoinUsPage />} />
             <Route path="/podrzi-nas" element={<PlaceholderPage title="Podrži nas" />} />
             <Route path="/galerija" element={<GalleryPage />} />
+            <Route path="/propisi-i-akti" element={<DocumentsPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
           <Footer />

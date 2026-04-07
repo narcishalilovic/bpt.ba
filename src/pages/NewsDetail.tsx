@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Calendar, User, ArrowLeft, Facebook, Twitter, Link as LinkIcon, Check } from 'lucide-react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
+import { formatDate } from '../lib/dateUtils';
 
 interface NewsItem {
   id: string;
@@ -63,7 +64,7 @@ export default function NewsDetail() {
     return (
       <div className="min-h-screen pt-32 px-6 flex flex-col items-center justify-center text-center">
         <h1 className="text-6xl font-black uppercase mb-8">Vijest nije pronađena</h1>
-        <Link to="/hronika-utjecaja" className="btn-primary">Povratak na sve vijesti</Link>
+        <Link to="/hronika-utjecaja" className="btn-primary">Povratak na novosti</Link>
       </div>
     );
   }
@@ -72,7 +73,7 @@ export default function NewsDetail() {
     <article className="min-h-screen pt-32 pb-24 bg-white text-anthracite">
       <div className="max-w-4xl mx-auto px-6">
         <Link to="/hronika-utjecaja" className="inline-flex items-center gap-2 font-display font-bold text-xs uppercase tracking-widest text-anthracite/40 hover:text-gold-accent transition-colors mb-12">
-          <ArrowLeft className="w-4 h-4" /> Povratak na hroniku utjecaja
+          <ArrowLeft className="w-4 h-4" /> Povratak na novosti
         </Link>
 
         <div className="mb-12">
@@ -85,7 +86,7 @@ export default function NewsDetail() {
           
           <div className="flex flex-wrap items-center gap-8 border-y border-anthracite/10 py-6">
             <div className="flex items-center gap-2 text-xs font-display font-bold uppercase tracking-widest text-anthracite/60">
-              <Calendar className="w-4 h-4 text-gold-accent" /> {item.date}
+              <Calendar className="w-4 h-4 text-gold-accent" /> {formatDate(item.date)}
             </div>
             <div className="flex items-center gap-2 text-xs font-display font-bold uppercase tracking-widest text-anthracite/60">
               <User className="w-4 h-4 text-gold-accent" /> {item.author || 'Redakcija'}
@@ -128,11 +129,11 @@ export default function NewsDetail() {
           </div>
         </div>
 
-        <div className="mb-16 aspect-video overflow-hidden">
+        <div className="mb-16 aspect-video overflow-hidden group cursor-pointer">
           <img
             src={item.image || `https://picsum.photos/seed/${item.id}/1200/800`}
             alt={item.title}
-            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+            className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
             referrerPolicy="no-referrer"
           />
         </div>
@@ -151,7 +152,7 @@ export default function NewsDetail() {
           <div className="mt-24 p-12 bg-gold-accent text-anthracite text-center">
             <h4 className="text-3xl font-black uppercase mb-4 tracking-tighter">Postani i ti dio priče</h4>
             <p className="text-lg font-serif italic mb-8 opacity-80">Pridruži se našem omladinskom klubu i počni stvarati promjenu već danas.</p>
-            <Link to="/ukljuci-se" className="btn-outline border-anthracite text-anthracite hover:bg-anthracite hover:text-white">Učlani se</Link>
+            <Link to="/ukljuci-se" className="px-8 py-3 bg-anthracite text-white font-display font-bold uppercase tracking-wider transition-all duration-300 hover:bg-black hover:scale-105 active:scale-95 inline-block">Učlani se</Link>
           </div>
         </div>
       </div>

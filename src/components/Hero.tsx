@@ -32,7 +32,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <EditableImage
           contentKey="hero_bg"
-          defaultSrc="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&q=80&w=1920&h=1080"
+          defaultSrc="https://github.com/narcishalilovic/bpt.ba/blob/main/hero-bg.webp?raw=true"
           alt="Pozorište Tešanj"
           className="absolute inset-0 w-full h-full object-cover opacity-60"
           alwaysShowButton={true}
@@ -50,12 +50,14 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="max-w-4xl"
         >
-          <EditableText
-            contentKey="hero_subtitle"
-            defaultText="Bosansko Pozorište Tešanj"
-            as="span"
-            className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block"
-          />
+          <div className="font-display font-bold text-sm uppercase tracking-[0.3em] mb-4 block">
+            <span className="text-[#F2F2F2]">R</span><EditableText
+              contentKey="hero_subtitle"
+              defaultText="EVOLUCIJA POZORIŠTA"
+              as="span"
+              className="text-gold-accent"
+            />
+          </div>
           <h1 className="text-5xl md:text-8xl font-black leading-[0.75] mb-12 tracking-tighter uppercase flex flex-col">
             <EditableText
               contentKey="hero_title_part1"
@@ -73,7 +75,7 @@ export default function Hero() {
           <EditableText
             contentKey="hero_description"
             defaultText='"Više od glume. Mjesto gdje stvaramo budućnost kulture."'
-            as="p"
+            as="div"
             className="text-xl md:text-2xl text-white/70 max-w-2xl mb-12 italic"
           />
         </motion.div>

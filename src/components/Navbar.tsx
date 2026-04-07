@@ -9,11 +9,12 @@ import EditableText from './EditableText';
 const navLinks = [
   { name: 'Početna', path: '/' },
   { name: 'Pozorište', path: '/historijat' },
-  { name: 'Hronika', path: '/hronika-utjecaja' },
+  { name: 'Novosti', path: '/hronika-utjecaja' },
   { name: 'Aktivnosti', path: '/aktivnosti' },
   { name: 'Mladi', path: '/omladinski-klub' },
   { name: 'Saradnja', path: '/institucionalna-saradnja' },
   { name: 'Galerija', path: '/galerija' },
+  { name: 'Propisi i akti', path: '/propisi-i-akti' },
 ];
 
 export default function Navbar() {
