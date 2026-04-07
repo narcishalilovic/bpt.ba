@@ -12,6 +12,7 @@ export default function AdminDashboard() {
   const [items, setItems] = useState<any[]>([]);
   const [docCategories, setDocCategories] = useState<any[]>([]);
   const [isAdding, setIsAdding] = useState(false);
+  const [isBulkAdding, setIsBulkAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<any>({});
   const [isUploading, setIsUploading] = useState(false);
@@ -54,6 +55,36 @@ export default function AdminDashboard() {
       setFormData({});
     } catch (error) {
       handleFirestoreError(error, OperationType.CREATE, activeTab);
+    }
+  };
+
+  const handleBulkAdd = async () => {
+    const urls = formData.bulkUrls?.split('\n').filter((url: string) => url.trim() !== '') || [];
+    if (urls.length === 0) {
+      alert('Molimo unesite barem jedan URL.');
+      return;
+    }
+
+    const category = formData.newCategory || formData.category || 'Ostalo';
+    const baseTitle = formData.baseTitle || 'Galerija';
+
+    setIsUploading(true);
+    try {
+      for (let i = 0; i < urls.length; i++) {
+        await addDoc(collection(db, 'gallery'), {
+          src: urls[i].trim(),
+          category: category,
+          title: urls.length > 1 ? `${baseTitle} ${i + 1}` : baseTitle,
+          createdAt: new Date().toISOString()
+        });
+      }
+      setIsBulkAdding(false);
+      setFormData({});
+      alert(`Uspješno dodano ${urls.length} fotografija.`);
+    } catch (error) {
+      handleFirestoreError(error, OperationType.CREATE, 'gallery');
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -169,13 +200,96 @@ export default function AdminDashboard() {
               activeTab === 'documents' ? 'Dokumenti' : 'Kategorije Dokumenata'
             }</span>
           </h2>
-          <button
-            onClick={() => { setIsAdding(true); setFormData({}); }}
-            className="btn-primary py-2 px-6 flex items-center gap-2"
-          >
-            <Plus size={18} /> Dodaj novo
-          </button>
+          <div className="flex gap-4">
+            {activeTab === 'gallery' && (
+              <button
+                onClick={() => { setIsBulkAdding(true); setIsAdding(false); setEditingId(null); setFormData({}); }}
+                className="btn-outline py-2 px-6 flex items-center gap-2"
+              >
+                <Plus size={18} /> Grupni unos (URL)
+              </button>
+            )}
+            <button
+              onClick={() => { setIsAdding(true); setIsBulkAdding(false); setEditingId(null); setFormData({}); }}
+              className="btn-primary py-2 px-6 flex items-center gap-2"
+            >
+              <Plus size={18} /> Dodaj novo
+            </button>
+          </div>
         </div>
+
+        {/* Bulk Add Form */}
+        {isBulkAdding && activeTab === 'gallery' && (
+          <div className="bg-white/5 border border-gold-accent p-8 mb-12 rounded-lg">
+            <h3 className="text-xl font-bold mb-6 uppercase tracking-widest text-gold-accent">
+              Grupni unos fotografija putem URL-a
+            </h3>
+            <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Kategorija (Folder)</label>
+                  <div className="flex gap-2">
+                    <select 
+                      className="admin-input flex-1" 
+                      value={formData.category || ''} 
+                      onChange={e => setFormData({...formData, category: e.target.value, newCategory: ''})}
+                    >
+                      <option value="">Odaberi postojeću</option>
+                      <option value="Predstave">Predstave</option>
+                      <option value="Omladinski klub">Omladinski klub</option>
+                      <option value="Historija">Historija</option>
+                      <option value="Događaji">Događaji</option>
+                    </select>
+                    <input 
+                      type="text" 
+                      placeholder="Ili upiši novu..." 
+                      className="admin-input flex-1" 
+                      value={formData.newCategory || ''} 
+                      onChange={e => setFormData({...formData, newCategory: e.target.value, category: ''})} 
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Osnovni naziv (npr. Premijera)</label>
+                  <input 
+                    type="text" 
+                    placeholder="Naziv koji će se koristiti za sve slike" 
+                    className="admin-input" 
+                    value={formData.baseTitle || ''} 
+                    onChange={e => setFormData({...formData, baseTitle: e.target.value})} 
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs uppercase tracking-widest text-white/40 font-bold">URL-ovi fotografija (jedan po liniji)</label>
+                <textarea 
+                  placeholder="Zalijepite URL-ove ovdje, svaki u novi red..." 
+                  className="admin-input h-64 font-mono text-sm" 
+                  value={formData.bulkUrls || ''} 
+                  onChange={e => setFormData({...formData, bulkUrls: e.target.value})} 
+                />
+                <p className="text-[10px] text-white/30 italic">Savjet: Možete kopirati listu linkova direktno i zalijepiti ih ovdje.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 mt-8">
+              <button
+                onClick={handleBulkAdd}
+                disabled={isUploading}
+                className="btn-primary py-2 px-8 flex items-center gap-2 disabled:opacity-50"
+              >
+                {isUploading ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
+                Dodaj sve fotografije
+              </button>
+              <button
+                onClick={() => setIsBulkAdding(false)}
+                disabled={isUploading}
+                className="btn-outline py-2 px-8 flex items-center gap-2 disabled:opacity-50"
+              >
+                <X size={18} /> Odustani
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Add/Edit Form */}
         {(isAdding || editingId) && (

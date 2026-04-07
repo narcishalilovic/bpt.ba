@@ -18,12 +18,17 @@ export default function GalleryPage() {
   const [activeCategory, setActiveCategory] = useState('Sve');
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [dynamicCategories, setDynamicCategories] = useState<string[]>(['Sve']);
 
   useEffect(() => {
     const q = query(collection(db, 'gallery'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as GalleryImage));
       setGalleryImages(data);
+      
+      // Extract unique categories
+      const cats = Array.from(new Set(data.map(img => img.category))).filter(Boolean);
+      setDynamicCategories(['Sve', ...cats.sort()]);
     }, (error) => {
       handleFirestoreError(error, OperationType.LIST, 'gallery');
     });
@@ -66,7 +71,7 @@ export default function GalleryPage() {
             <Filter size={18} />
             <span className="font-display font-bold text-xs uppercase tracking-widest">Filtriraj:</span>
           </div>
-          {categories.map((cat) => (
+          {dynamicCategories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
