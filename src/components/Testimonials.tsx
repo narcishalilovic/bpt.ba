@@ -1,19 +1,17 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Quote } from 'lucide-react';
+import { Quote, User } from 'lucide-react';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import EditableText from './EditableText';
+import SectionHeader from './SectionHeader';
 
 interface Testimonial {
   id: string;
   quote: string;
   author: string;
   role: string;
-  image: string;
 }
-
-import SectionHeader from './SectionHeader';
 
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -61,16 +59,11 @@ export default function Testimonials() {
                   "{t.quote}"
                 </p>
                 
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gold-accent/30">
-                    <img 
-                      src={t.image || `https://picsum.photos/seed/${t.id}/200/200`} 
-                      alt={t.author} 
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                      referrerPolicy="no-referrer"
-                    />
+                <div className="flex flex-col gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gold-accent/10 flex items-center justify-center border border-gold-accent/30 group-hover:bg-gold-accent group-hover:text-anthracite transition-all duration-500">
+                    <User className="w-6 h-6 text-gold-accent group-hover:text-anthracite transition-colors" />
                   </div>
-                  <div>
+                  <div className="space-y-1">
                     <h4 className="font-display font-bold text-white uppercase tracking-wider">
                       {t.author}
                     </h4>

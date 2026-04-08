@@ -4,7 +4,7 @@ import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, query, order
 import { db, handleFirestoreError, OperationType, uploadFile } from '../firebase';
 import { Plus, Trash2, Edit, Save, X, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
 
-type TabType = 'news' | 'gallery' | 'testimonials' | 'activities' | 'institutionalPrograms' | 'documents' | 'documentCategories';
+type TabType = 'news' | 'testimonials' | 'activities' | 'institutionalPrograms' | 'documents' | 'documentCategories';
 
 export default function AdminDashboard() {
   const { isAdmin, loading } = useFirebase();
@@ -12,7 +12,6 @@ export default function AdminDashboard() {
   const [items, setItems] = useState<any[]>([]);
   const [docCategories, setDocCategories] = useState<any[]>([]);
   const [isAdding, setIsAdding] = useState(false);
-  const [isBulkAdding, setIsBulkAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<any>({});
   const [isUploading, setIsUploading] = useState(false);
@@ -58,36 +57,6 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleBulkAdd = async () => {
-    const urls = formData.bulkUrls?.split('\n').filter((url: string) => url.trim() !== '') || [];
-    if (urls.length === 0) {
-      alert('Molimo unesite barem jedan URL.');
-      return;
-    }
-
-    const category = formData.newCategory || formData.category || 'Ostalo';
-    const baseTitle = formData.baseTitle || 'Galerija';
-
-    setIsUploading(true);
-    try {
-      for (let i = 0; i < urls.length; i++) {
-        await addDoc(collection(db, 'gallery'), {
-          src: urls[i].trim(),
-          category: category,
-          title: urls.length > 1 ? `${baseTitle} ${i + 1}` : baseTitle,
-          createdAt: new Date().toISOString()
-        });
-      }
-      setIsBulkAdding(false);
-      setFormData({});
-      alert(`Uspješno dodano ${urls.length} fotografija.`);
-    } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'gallery');
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
   const handleDelete = async (id: string) => {
     if (!window.confirm('Jeste li sigurni da želite obrisati ovu stavku?')) return;
     try {
@@ -117,8 +86,7 @@ export default function AdminDashboard() {
       const downloadURL = await uploadFile(file, `${activeTab}/${fileName}`);
       
       // Update the correct image field based on active tab
-      const imageField = activeTab === 'gallery' ? 'src' : 'image';
-      setFormData({ ...formData, [imageField]: downloadURL });
+      setFormData({ ...formData, image: downloadURL });
     } catch (error) {
       console.error('Error uploading file:', error);
       alert('Greška pri učitavanju fotografije.');
@@ -171,7 +139,7 @@ export default function AdminDashboard() {
         </h1>
 
         <div className="flex flex-wrap gap-4 mb-12 border-b border-white/10 pb-4">
-          {(['news', 'gallery', 'testimonials', 'activities', 'institutionalPrograms', 'documents', 'documentCategories'] as const).map((tab) => (
+          {(['news', 'testimonials', 'activities', 'institutionalPrograms', 'documents', 'documentCategories'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => { setActiveTab(tab); setIsAdding(false); setEditingId(null); }}
@@ -180,7 +148,6 @@ export default function AdminDashboard() {
               }`}
             >
               {tab === 'news' ? 'Vijesti' : 
-               tab === 'gallery' ? 'Galerija' : 
                tab === 'testimonials' ? 'Recenzije' : 
                tab === 'activities' ? 'Aktivnosti' : 
                tab === 'institutionalPrograms' ? 'Programi' :
@@ -193,7 +160,6 @@ export default function AdminDashboard() {
           <h2 className="text-2xl font-black uppercase tracking-tight">
             Upravljanje: <span className="text-gold-accent">{
               activeTab === 'news' ? 'Vijesti' : 
-              activeTab === 'gallery' ? 'Galerija' : 
               activeTab === 'testimonials' ? 'Recenzije' : 
               activeTab === 'activities' ? 'Aktivnosti' : 
               activeTab === 'institutionalPrograms' ? 'Programi' :
@@ -201,95 +167,14 @@ export default function AdminDashboard() {
             }</span>
           </h2>
           <div className="flex gap-4">
-            {activeTab === 'gallery' && (
-              <button
-                onClick={() => { setIsBulkAdding(true); setIsAdding(false); setEditingId(null); setFormData({}); }}
-                className="btn-outline py-2 px-6 flex items-center gap-2"
-              >
-                <Plus size={18} /> Grupni unos (URL)
-              </button>
-            )}
             <button
-              onClick={() => { setIsAdding(true); setIsBulkAdding(false); setEditingId(null); setFormData({}); }}
+              onClick={() => { setIsAdding(true); setEditingId(null); setFormData({}); }}
               className="btn-primary py-2 px-6 flex items-center gap-2"
             >
               <Plus size={18} /> Dodaj novo
             </button>
           </div>
         </div>
-
-        {/* Bulk Add Form */}
-        {isBulkAdding && activeTab === 'gallery' && (
-          <div className="bg-white/5 border border-gold-accent p-8 mb-12 rounded-lg">
-            <h3 className="text-xl font-bold mb-6 uppercase tracking-widest text-gold-accent">
-              Grupni unos fotografija putem URL-a
-            </h3>
-            <div className="grid grid-cols-1 gap-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Kategorija (Folder)</label>
-                  <div className="flex gap-2">
-                    <select 
-                      className="admin-input flex-1" 
-                      value={formData.category || ''} 
-                      onChange={e => setFormData({...formData, category: e.target.value, newCategory: ''})}
-                    >
-                      <option value="">Odaberi postojeću</option>
-                      <option value="Predstave">Predstave</option>
-                      <option value="Omladinski klub">Omladinski klub</option>
-                      <option value="Historija">Historija</option>
-                      <option value="Događaji">Događaji</option>
-                    </select>
-                    <input 
-                      type="text" 
-                      placeholder="Ili upiši novu..." 
-                      className="admin-input flex-1" 
-                      value={formData.newCategory || ''} 
-                      onChange={e => setFormData({...formData, newCategory: e.target.value, category: ''})} 
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Osnovni naziv (npr. Premijera)</label>
-                  <input 
-                    type="text" 
-                    placeholder="Naziv koji će se koristiti za sve slike" 
-                    className="admin-input" 
-                    value={formData.baseTitle || ''} 
-                    onChange={e => setFormData({...formData, baseTitle: e.target.value})} 
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs uppercase tracking-widest text-white/40 font-bold">URL-ovi fotografija (jedan po liniji)</label>
-                <textarea 
-                  placeholder="Zalijepite URL-ove ovdje, svaki u novi red..." 
-                  className="admin-input h-64 font-mono text-sm" 
-                  value={formData.bulkUrls || ''} 
-                  onChange={e => setFormData({...formData, bulkUrls: e.target.value})} 
-                />
-                <p className="text-[10px] text-white/30 italic">Savjet: Možete kopirati listu linkova direktno i zalijepiti ih ovdje.</p>
-              </div>
-            </div>
-            <div className="flex gap-4 mt-8">
-              <button
-                onClick={handleBulkAdd}
-                disabled={isUploading}
-                className="btn-primary py-2 px-8 flex items-center gap-2 disabled:opacity-50"
-              >
-                {isUploading ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
-                Dodaj sve fotografije
-              </button>
-              <button
-                onClick={() => setIsBulkAdding(false)}
-                disabled={isUploading}
-                className="btn-outline py-2 px-8 flex items-center gap-2 disabled:opacity-50"
-              >
-                <X size={18} /> Odustani
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* Add/Edit Form */}
         {(isAdding || editingId) && (
@@ -308,20 +193,10 @@ export default function AdminDashboard() {
                   <textarea placeholder="Sadržaj" className="admin-input md:col-span-2 h-32" value={formData.content || ''} onChange={e => setFormData({...formData, content: e.target.value})} />
                 </>
               )}
-              {activeTab === 'gallery' && (
-                <>
-                  <input type="text" placeholder="Naslov" className="admin-input" value={formData.title || ''} onChange={e => setFormData({...formData, title: e.target.value})} />
-                  <input type="text" placeholder="Kategorija" className="admin-input" value={formData.category || ''} onChange={e => setFormData({...formData, category: e.target.value})} />
-                  <div className="md:col-span-2">
-                    {renderImageInput('src')}
-                  </div>
-                </>
-              )}
               {activeTab === 'testimonials' && (
                 <>
                   <input type="text" placeholder="Autor" className="admin-input" value={formData.author || ''} onChange={e => setFormData({...formData, author: e.target.value})} />
                   <input type="text" placeholder="Uloga" className="admin-input" value={formData.role || ''} onChange={e => setFormData({...formData, role: e.target.value})} />
-                  {renderImageInput('image')}
                   <textarea placeholder="Citat" className="admin-input md:col-span-2 h-32" value={formData.quote || ''} onChange={e => setFormData({...formData, quote: e.target.value})} />
                 </>
               )}

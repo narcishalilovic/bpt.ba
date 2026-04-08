@@ -19,7 +19,6 @@ import YouthClubDetail from './pages/YouthClubDetail';
 import NewsList from './pages/NewsList';
 import NewsDetail from './pages/NewsDetail';
 import HistoryPage from './pages/HistoryPage';
-import GalleryPage from './pages/GalleryPage';
 import DocumentsPage from './pages/DocumentsPage';
 import AdminDashboard from './pages/AdminDashboard';
 import JoinUsPage from './pages/JoinUsPage';
@@ -50,81 +49,42 @@ function HomePage() {
       <InstitutionalPrograms />
       <Testimonials />
       
-      {/* Multimedia / Gallery Preview Section */}
-      <section className="py-24 px-6 bg-anthracite border-t border-white/10 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <SectionHeader
-              subtitleKey="gallery_preview_subtitle"
-              subtitleDefault="Multimedija"
-              titleKey="gallery_preview_title"
-              titleDefault="NAŠ PORTFOLIO KROZ OBJEKTIV"
-              className="max-w-2xl mb-0"
-              dark={true}
-            />
-            <Link to="/galerija" className="btn-outline">
-              Pogledaj galeriju
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="aspect-square overflow-hidden group relative">
-                <EditableImage
-                  contentKey={`gallery_preview_img_${i}`}
-                  defaultSrc={`https://picsum.photos/seed/gallery-${i}/800/800?grayscale`}
-                  alt={`Gallery ${i}`}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gold-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* Decorative background text */}
-        <div className="absolute -bottom-10 -left-10 text-[15rem] md:text-[20rem] font-black text-white/5 select-none pointer-events-none leading-none uppercase">
-          Pozorište
-        </div>
-      </section>
-
       {/* Support Us / Impact Section */}
       <section className="py-24 px-6 bg-gold-accent text-anthracite overflow-hidden relative">
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div>
-              <EditableText
-                contentKey="impact_title"
-                defaultText="TVOJA PODRŠKA MIJENJA SVE"
-                as="h2"
-                className="text-5xl md:text-7xl font-black leading-[0.9] tracking-tighter uppercase mb-8"
-              />
-              <EditableText
-                contentKey="impact_description"
-                defaultText="Svaka donacija, svako članstvo i svaka kupljena karta direktno podržavaju razvoj mladih talenata u Tešnju."
-                as="div"
-                className="text-xl font-serif italic mb-12 opacity-90"
-              />
-              <Link to="/podrzi-nas" className="px-8 py-3 bg-off-white text-anthracite font-display font-bold uppercase tracking-wider transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 inline-block">
-                Saznaj više o donacijama
-              </Link>
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <SectionHeader
+              subtitleKey="impact_subtitle"
+              subtitleDefault="Podrži naš rad"
+              titleKey="impact_title"
+              titleDefault="TVOJA PODRŠKA MIJENJA SVE"
+              descriptionKey="impact_description"
+              descriptionDefault="Svaka donacija, svako članstvo i svaka kupljena karta direktno podržavaju razvoj mladih talenata u Tešnju."
+              titleTag="h2"
+              centered={true}
+              className="mb-8"
+            />
+            <Link to="/podrzi-nas" className="px-8 py-3 bg-off-white text-anthracite font-display font-bold uppercase tracking-wider transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 inline-block">
+              Saznaj više o donacijama
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="p-8 bg-anthracite/10 backdrop-blur-sm border border-anthracite/20 flex flex-col items-center text-center gap-2">
+              <EditableText contentKey="stat_1_val" defaultText="150+" as="div" className="text-4xl font-black" />
+              <EditableText contentKey="stat_1_label" defaultText="Aktivnih članova" as="div" className="text-xs font-display font-bold uppercase tracking-widest opacity-70" />
             </div>
-            <div className="grid grid-cols-2 gap-8">
-              <div className="p-8 bg-anthracite/10 backdrop-blur-sm border border-anthracite/20">
-                <EditableText contentKey="stat_1_val" defaultText="150+" as="div" className="text-4xl font-black mb-2" />
-                <EditableText contentKey="stat_1_label" defaultText="Aktivnih članova" as="div" className="text-xs font-display font-bold uppercase tracking-widest opacity-70" />
-              </div>
-              <div className="p-8 bg-anthracite/10 backdrop-blur-sm border border-anthracite/20">
-                <EditableText contentKey="stat_2_val" defaultText="20+" as="div" className="text-4xl font-black mb-2" />
-                <EditableText contentKey="stat_2_label" defaultText="Godišnjih premijera" as="div" className="text-xs font-display font-bold uppercase tracking-widest opacity-70" />
-              </div>
-              <div className="p-8 bg-anthracite/10 backdrop-blur-sm border border-anthracite/20">
-                <EditableText contentKey="stat_3_val" defaultText="5000+" as="div" className="text-4xl font-black mb-2" />
-                <EditableText contentKey="stat_3_label" defaultText="Zadovoljnih gledalaca" as="div" className="text-xs font-display font-bold uppercase tracking-widest opacity-70" />
-              </div>
-              <div className="p-8 bg-anthracite/10 backdrop-blur-sm border border-anthracite/20">
-                <EditableText contentKey="stat_4_val" defaultText="100%" as="div" className="text-4xl font-black mb-2" />
-                <EditableText contentKey="stat_4_label" defaultText="Ljubav prema umjetnosti" as="div" className="text-xs font-display font-bold uppercase tracking-widest opacity-70" />
-              </div>
+            <div className="p-8 bg-anthracite/10 backdrop-blur-sm border border-anthracite/20 flex flex-col items-center text-center gap-2">
+              <EditableText contentKey="stat_2_val" defaultText="20+" as="div" className="text-4xl font-black" />
+              <EditableText contentKey="stat_2_label" defaultText="Godišnjih premijera" as="div" className="text-xs font-display font-bold uppercase tracking-widest opacity-70" />
+            </div>
+            <div className="p-8 bg-anthracite/10 backdrop-blur-sm border border-anthracite/20 flex flex-col items-center text-center gap-2">
+              <EditableText contentKey="stat_3_val" defaultText="5000+" as="div" className="text-4xl font-black" />
+              <EditableText contentKey="stat_3_label" defaultText="Zadovoljnih gledalaca" as="div" className="text-xs font-display font-bold uppercase tracking-widest opacity-70" />
+            </div>
+            <div className="p-8 bg-anthracite/10 backdrop-blur-sm border border-anthracite/20 flex flex-col items-center text-center gap-2">
+              <EditableText contentKey="stat_4_val" defaultText="100%" as="div" className="text-4xl font-black" />
+              <EditableText contentKey="stat_4_label" defaultText="Ljubav prema umjetnosti" as="div" className="text-xs font-display font-bold uppercase tracking-widest opacity-70" />
             </div>
           </div>
         </div>
@@ -167,7 +127,6 @@ export default function App() {
             <Route path="/aktivnosti" element={<PlaceholderPage title="Aktivnosti" />} />
             <Route path="/ukljuci-se" element={<JoinUsPage />} />
             <Route path="/podrzi-nas" element={<PlaceholderPage title="Podrži nas" />} />
-            <Route path="/galerija" element={<GalleryPage />} />
             <Route path="/propisi-i-akti" element={<DocumentsPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>

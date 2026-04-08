@@ -63,7 +63,6 @@ export default function Footer() {
               <li><Link to="/aktivnosti" className="hover-gold transition-colors">Aktivnosti</Link></li>
               <li><Link to="/omladinski-klub" className="hover-gold transition-colors">Mladi</Link></li>
               <li><Link to="/institucionalna-saradnja" className="hover-gold transition-colors">Saradnja</Link></li>
-              <li><Link to="/galerija" className="hover-gold transition-colors">Galerija</Link></li>
               
               {isStudioEnvironment && (
                 <li className="pt-4 border-t border-white/5">

@@ -13,7 +13,6 @@ const navLinks = [
   { name: 'Aktivnosti', path: '/aktivnosti' },
   { name: 'Mladi', path: '/omladinski-klub' },
   { name: 'Saradnja', path: '/institucionalna-saradnja' },
-  { name: 'Galerija', path: '/galerija' },
   { name: 'Propisi i akti', path: '/propisi-i-akti' },
 ];
 
