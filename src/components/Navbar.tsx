@@ -41,7 +41,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link to="/" className="flex items-center gap-3 group">
           <img 
-            src="https://github.com/narcishalilovic/bpt.ba/blob/main/assets/logo-white-bpt.webp?raw=true" 
+            src="https://raw.githubusercontent.com/narcishalilovic/bpt.ba/main/assets/logo-white-bpt.webp" 
             alt="Bosansko Pozorište Tešanj" 
             className="h-12 w-auto transition-transform group-hover:scale-105"
             referrerPolicy="no-referrer"

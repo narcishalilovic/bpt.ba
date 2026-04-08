@@ -15,7 +15,7 @@ export default function Footer() {
           <div className="md:col-span-2">
             <Link to="/" className="flex items-center gap-3 mb-8 group">
               <img 
-                src="https://github.com/narcishalilovic/bpt.ba/blob/main/assets/logo-white-bpt.webp?raw=true" 
+                src="https://raw.githubusercontent.com/narcishalilovic/bpt.ba/main/assets/logo-white-bpt.webp" 
                 alt="Bosansko Pozorište Tešanj" 
                 className="h-16 w-auto transition-transform group-hover:scale-105"
                 referrerPolicy="no-referrer"
