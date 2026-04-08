@@ -6,6 +6,8 @@ import { collection, onSnapshot, query, limit, orderBy } from 'firebase/firestor
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import EditableText from './EditableText';
 
+import SectionHeader from './SectionHeader';
+
 export default function InstitutionalPrograms() {
   const [programs, setPrograms] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,26 +38,16 @@ export default function InstitutionalPrograms() {
     <section className="py-24 px-6 bg-anthracite text-white border-t border-white/10">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="max-w-2xl">
-            <EditableText
-              contentKey="inst_programs_subtitle"
-              defaultText="Institucionalna saradnja"
-              as="span"
-              className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block"
-            />
-            <EditableText
-              contentKey="inst_programs_title"
-              defaultText="PROGRAMI ZA OBRAZOVNE USTANOVE"
-              as="h2"
-              className="text-4xl md:text-6xl font-black leading-none tracking-tighter uppercase mb-6"
-            />
-            <EditableText
-              contentKey="inst_programs_description"
-              defaultText="Pozorište nije samo zgrada, već učionica bez zidova. Naši programi su pažljivo kreirani da dopune školski plan i program kroz umjetnost."
-              as="div"
-              className="text-xl font-serif italic text-white/60"
-            />
-          </div>
+          <SectionHeader
+            subtitleKey="inst_programs_subtitle"
+            subtitleDefault="Institucionalna saradnja"
+            titleKey="inst_programs_title"
+            titleDefault="PROGRAMI ZA OBRAZOVNE USTANOVE"
+            descriptionKey="inst_programs_description"
+            descriptionDefault="Pozorište nije samo zgrada, već učionica bez zidova. Naši programi su pažljivo kreirani da dopune školski plan i program kroz umjetnost."
+            className="max-w-2xl mb-0"
+            dark={true}
+          />
           <Link to="/institucionalna-saradnja" className="btn-outline">
             Saznaj više
           </Link>

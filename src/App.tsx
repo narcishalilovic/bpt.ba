@@ -28,6 +28,8 @@ import EditableImage from './components/EditableImage';
 
 import { FirebaseProvider } from './context/FirebaseContext';
 
+import SectionHeader from './components/SectionHeader';
+
 // Scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -52,20 +54,14 @@ function HomePage() {
       <section className="py-24 px-6 bg-anthracite border-t border-white/10 relative overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div className="max-w-2xl">
-              <EditableText
-                contentKey="gallery_preview_subtitle"
-                defaultText="Multimedija"
-                as="span"
-                className="font-display font-bold text-gold-accent text-sm uppercase tracking-widest mb-4 block"
-              />
-              <EditableText
-                contentKey="gallery_preview_title"
-                defaultText="NAŠ PORTFOLIO KROZ OBJEKTIV"
-                as="h2"
-                className="text-4xl md:text-6xl font-black leading-none tracking-tighter uppercase"
-              />
-            </div>
+            <SectionHeader
+              subtitleKey="gallery_preview_subtitle"
+              subtitleDefault="Multimedija"
+              titleKey="gallery_preview_title"
+              titleDefault="NAŠ PORTFOLIO KROZ OBJEKTIV"
+              className="max-w-2xl mb-0"
+              dark={true}
+            />
             <Link to="/galerija" className="btn-outline">
               Pogledaj galeriju
             </Link>

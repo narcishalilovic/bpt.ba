@@ -13,6 +13,8 @@ interface Testimonial {
   image: string;
 }
 
+import SectionHeader from './SectionHeader';
+
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
@@ -34,20 +36,13 @@ export default function Testimonials() {
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gold-accent/5 -skew-x-12 translate-x-1/2 pointer-events-none" />
       
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="mb-16">
-          <EditableText
-            contentKey="testimonials_subtitle"
-            defaultText="Riječ zajednice"
-            as="span"
-            className="font-display font-bold text-gold-accent text-sm uppercase tracking-widest mb-4 block"
-          />
-          <EditableText
-            contentKey="testimonials_title"
-            defaultText="ŠTA KAŽU NAŠI ČLANOVI I PRIJATELJI"
-            as="h2"
-            className="text-4xl md:text-6xl font-black leading-none tracking-tighter uppercase"
-          />
-        </div>
+        <SectionHeader
+          subtitleKey="testimonials_subtitle"
+          subtitleDefault="Riječ zajednice"
+          titleKey="testimonials_title"
+          titleDefault="ŠTA KAŽU NAŠI ČLANOVI I PRIJATELJI"
+          dark={true}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {testimonials.length > 0 ? (

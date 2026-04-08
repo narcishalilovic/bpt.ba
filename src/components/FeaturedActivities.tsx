@@ -7,6 +7,8 @@ import { db, handleFirestoreError, OperationType } from '../firebase';
 import EditableText from './EditableText';
 import { formatDate } from '../lib/dateUtils';
 
+import SectionHeader from './SectionHeader';
+
 export default function FeaturedActivities() {
   const [activities, setActivities] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,20 +31,13 @@ export default function FeaturedActivities() {
     <section className="py-24 px-6 bg-white text-anthracite">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="max-w-2xl">
-            <EditableText
-              contentKey="featured_subtitle"
-              defaultText="Naše aktivnosti"
-              as="span"
-              className="font-display font-bold text-gold-accent text-sm uppercase tracking-widest mb-4 block"
-            />
-            <EditableText
-              contentKey="featured_title"
-              defaultText="PREGLED TEKUĆIH I NADOLAZEĆIH PROJEKATA"
-              as="h2"
-              className="text-4xl md:text-6xl font-black leading-none tracking-tighter uppercase"
-            />
-          </div>
+          <SectionHeader
+            subtitleKey="featured_subtitle"
+            subtitleDefault="Naše aktivnosti"
+            titleKey="featured_title"
+            titleDefault="PREGLED TEKUĆIH I NADOLAZEĆIH PROJEKATA"
+            className="max-w-2xl mb-0"
+          />
           <Link to="/aktivnosti" className="btn-primary">
             Svi projekti
           </Link>

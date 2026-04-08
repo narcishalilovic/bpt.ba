@@ -35,6 +35,8 @@ const timeline = [
   }
 ];
 
+import SectionHeader from '../components/SectionHeader';
+
 export default function HistoryPage() {
   return (
     <div className="min-h-screen pt-32 pb-24 bg-white text-anthracite">
@@ -43,26 +45,16 @@ export default function HistoryPage() {
           <ArrowLeft className="w-4 h-4" /> Povratak na početnu
         </Link>
 
-        <div className="max-w-4xl mb-24">
-          <EditableText
-            contentKey="history_page_subtitle"
-            defaultText="Historijat pozorišta"
-            as="span"
-            className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block"
-          />
-          <EditableText
-            contentKey="history_page_title"
-            defaultText="LEGAT KOJI ŽIVI KROZ GENERACIJE"
-            as="h1"
-            className="text-5xl md:text-8xl font-black leading-none tracking-tighter uppercase mb-8"
-          />
-          <EditableText
-            contentKey="history_page_description"
-            defaultText="Od prve odigrane predstave u Bosni i Hercegovini do danas, Tešanj ostaje kolijevka umjetničkog izražaja i čuvar teatarske tradicije."
-            as="p"
-            className="text-2xl md:text-3xl font-serif italic text-anthracite/70 leading-relaxed"
-          />
-        </div>
+        <SectionHeader
+          subtitleKey="history_page_subtitle"
+          subtitleDefault="Historijat pozorišta"
+          titleKey="history_page_title"
+          titleDefault="LEGAT KOJI ŽIVI KROZ GENERACIJE"
+          descriptionKey="history_page_description"
+          descriptionDefault="Od prve odigrane predstave u Bosni i Hercegovini do danas, Tešanj ostaje kolijevka umjetničkog izražaja i čuvar teatarske tradicije."
+          titleTag="h1"
+          className="max-w-4xl mb-24"
+        />
 
         {/* Mission & Vision Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-32">

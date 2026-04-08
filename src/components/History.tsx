@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import EditableText from './EditableText';
 import EditableImage from './EditableImage';
 
+import SectionHeader from './SectionHeader';
+
 export default function History() {
   return (
     <section className="py-24 px-6 bg-white text-anthracite relative overflow-hidden">
@@ -15,17 +17,12 @@ export default function History() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <EditableText
-              contentKey="history_subtitle"
-              defaultText="Naša baština"
-              as="span"
-              className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block"
-            />
-            <EditableText
-              contentKey="history_title"
-              defaultText="TRADICIJA KOJA TRAJE OD 1953."
-              as="h2"
-              className="text-4xl md:text-7xl font-black leading-none tracking-tighter uppercase mb-8"
+            <SectionHeader
+              subtitleKey="history_subtitle"
+              subtitleDefault="Naša baština"
+              titleKey="history_title"
+              titleDefault="TRADICIJA KOJA TRAJE OD 1953."
+              className="mb-8"
             />
             <div className="space-y-6 text-xl font-serif italic text-anthracite/70 leading-relaxed">
               <EditableText

@@ -43,31 +43,22 @@ const benefits = [
   },
 ];
 
+import SectionHeader from './SectionHeader';
+
 export default function YouthClub() {
   return (
     <section className="py-24 px-6 bg-white text-anthracite">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="max-w-2xl text-left">
-            <EditableText
-              contentKey="youth_club_subtitle"
-              defaultText="Omladinski klub"
-              as="span"
-              className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block"
-            />
-            <EditableText
-              contentKey="youth_club_title"
-              defaultText="TVOJA SCENA, TVOJA PRAVILA"
-              as="h2"
-              className="text-4xl md:text-6xl font-black leading-none tracking-tighter uppercase mb-6"
-            />
-            <EditableText
-              contentKey="youth_club_description"
-              defaultText="Pridruži se zajednici mladih kreativaca koji mijenjaju kulturnu sliku Tešnja."
-              as="div"
-              className="text-xl font-serif italic text-anthracite/60"
-            />
-          </div>
+          <SectionHeader
+            subtitleKey="youth_club_subtitle"
+            subtitleDefault="Omladinski klub"
+            titleKey="youth_club_title"
+            titleDefault="TVOJA SCENA, TVOJA PRAVILA"
+            descriptionKey="youth_club_description"
+            descriptionDefault="Pridruži se zajednici mladih kreativaca koji mijenjaju kulturnu sliku Tešnja."
+            className="max-w-2xl mb-0"
+          />
           <Link to="/omladinski-klub" className="btn-primary">
             Saznaj više
           </Link>

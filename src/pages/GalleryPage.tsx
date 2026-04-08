@@ -14,6 +14,8 @@ interface GalleryImage {
   src: string;
 }
 
+import SectionHeader from '../components/SectionHeader';
+
 export default function GalleryPage() {
   const [activeCategory, setActiveCategory] = useState('Sve');
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
@@ -44,26 +46,16 @@ export default function GalleryPage() {
     <div className="min-h-screen bg-anthracite pt-32 pb-24 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-16">
-          <EditableText
-            contentKey="gallery_subtitle"
-            defaultText="Multimedija"
-            as="span"
-            className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block"
-          />
-          <EditableText
-            contentKey="gallery_title"
-            defaultText="NAŠA GALERIJA"
-            as="h1"
-            className="text-6xl md:text-8xl font-black leading-none tracking-tighter uppercase mb-8"
-          />
-          <EditableText
-            contentKey="gallery_description"
-            defaultText="Zavirite u svijet iza zavjese. Od historijskih trenutaka do najnovijih premijera našeg Omladinskog kluba."
-            as="div"
-            className="text-xl font-serif italic text-white/60 max-w-2xl"
-          />
-        </div>
+        <SectionHeader
+          subtitleKey="gallery_subtitle"
+          subtitleDefault="Multimedija"
+          titleKey="gallery_title"
+          titleDefault="NAŠA GALERIJA"
+          descriptionKey="gallery_description"
+          descriptionDefault="Zavirite u svijet iza zavjese. Od historijskih trenutaka do najnovijih premijera našeg Omladinskog kluba."
+          titleTag="h1"
+          dark={true}
+        />
 
         {/* Filters */}
         <div className="flex flex-wrap gap-4 mb-12 items-center">

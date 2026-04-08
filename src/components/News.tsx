@@ -17,6 +17,8 @@ interface NewsItem {
   lead?: string;
 }
 
+import SectionHeader from './SectionHeader';
+
 export default function News() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -44,20 +46,13 @@ export default function News() {
     <section className="py-24 px-6 bg-off-white text-anthracite border-t border-anthracite/5">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 border-b-2 border-anthracite pb-8">
-          <div className="max-w-2xl">
-            <EditableText
-              contentKey="news_subtitle"
-              defaultText="Novosti"
-              as="span"
-              className="font-display font-bold text-gold-accent text-sm uppercase tracking-[0.3em] mb-4 block"
-            />
-            <EditableText
-              contentKey="news_title"
-              defaultText="VIJESTI KOJE STVARAJU PROMJENU"
-              as="h2"
-              className="text-4xl md:text-7xl font-black leading-none tracking-tighter uppercase"
-            />
-          </div>
+          <SectionHeader
+            subtitleKey="news_subtitle"
+            subtitleDefault="Novosti"
+            titleKey="news_title"
+            titleDefault="VIJESTI KOJE STVARAJU PROMJENU"
+            className="max-w-2xl mb-0"
+          />
           <Link to="/hronika-utjecaja" className="btn-outline border-anthracite text-anthracite hover:bg-anthracite hover:text-white">
             Sve vijesti
           </Link>
